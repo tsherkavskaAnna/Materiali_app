@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
   templateUrl: './data.component.html',
   styleUrls: ['./data.component.css']
 })
-export class DataComponent implements OnInit {
+export class InputDataComponent implements OnInit {
+
 
   form!: FormGroup;
   submitted = false;
@@ -18,7 +19,7 @@ export class DataComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      id: ['', Validators.required],
+      Id:['', Validators.required],
       dataRegistrazione: ['', Validators.required],
       cantiere: ['', Validators.required],
       articolo: ['', Validators.required],

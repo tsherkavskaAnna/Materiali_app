@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import Dexie, { Table } from 'dexie';
 import { Tab_Materiali_Model } from './tab_materiali_model';
+import { catchError, map } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class materialiDBService extends Dexie{
+  
   materiali: Dexie.Table<Tab_Materiali_Model, number>;
 
   constructor() { 
@@ -21,18 +24,23 @@ export class materialiDBService extends Dexie{
 
     this.materiali = this.table('materiali');
     console.log(this.materiali);
-    
+
 
   }
     //Tutti materiali
-    getAllMaterials() {
-      return this.materiali.toArray().then((data) => {
-        console.log(data);
-        return data;
-      })
-      
-   }
-
+    getAllMaterials(): Observable<Tab_Materiali_Model[]> {
+      return from(this.materiali.toArray()).pipe(
+        map((data: Tab_Materiali_Model[]) => {
+          console.log('Service: ', data);
+          return data;
+        }),
+        catchError((error: any) => {
+          console.log('Errore di inserimento materiale nella tabella');
+          return of([]);
+        })
+      );
+    }
+        
    //Aggiungere nuovo materiale
    addMaterials(material: Tab_Materiali_Model) {
     return this.materiali.add(material);

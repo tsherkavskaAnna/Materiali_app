@@ -4,17 +4,18 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { DataComponent } from './data/data.component';
+import { InputDataComponent } from './inputData/data.component';
 import { RigheComponent } from './righe/righe.component';
 import { MaterialiComponent } from './materiali/materiali.component';
 import { DettaglioComponent } from './dettaglio/dettaglio.component';
+import { materialiDBService } from './materialiDB.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    DataComponent,
+    InputDataComponent,
     RigheComponent,
     MaterialiComponent,
     DettaglioComponent,
@@ -24,7 +25,7 @@ import { DettaglioComponent } from './dettaglio/dettaglio.component';
     AppRoutingModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [materialiDBService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
