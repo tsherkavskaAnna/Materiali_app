@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { materialiDBService } from '../materialiDB.service';
+import { materialiDBService } from '../services/materialiDB.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Tab_Materiali_Model } from '../tab_materiali_model';
 
 @Component({
@@ -9,32 +10,43 @@ import { Tab_Materiali_Model } from '../tab_materiali_model';
 })
 export class RigheComponent implements OnInit {
 
-public isLoading: boolean = true;
-public tutti_materiali: Tab_Materiali_Model[] = [];
+ selectedMateriale: Tab_Materiali_Model | undefined;
+ materialId: number | null = null;
 
-  constructor(private dexieDB: materialiDBService) {}
+  constructor (private dexieDB: materialiDBService, private route: ActivatedRoute, private router: Router) {}
 
-  ngOnInit() : void{
-    this.loadMaterials();
-    console.log('tutti materiali: ', this.tutti_materiali);
+ngOnInit(): void {
+ this.route.paramMap.subscribe(params => {
+  const materialId = params.get('id');
+  if(materialId) {
+    this.materialId = Number(materialId);
+    this.dexieDB.getMaterialByID(this.materialId).then((material) => {
+      this.selectedMateriale = material; 
+      console.log('Materiale con id ' + materialId);
+      console.log(this.selectedMateriale);
+     }).catch((error) => {
+      console.log('Errore durante rucupero dati!');
+     });
+  }
+ })
+ 
+}
+
+salvaCambiamenti() { 
+  if(this.selectedMateriale) {
+    const nuovaData = new Date();
+    this.selectedMateriale.Data_Registrazione = nuovaData;
+    console.log('Nuova data è: '+ this.selectedMateriale.Data_Registrazione );
     
   }
+}
   
-  loadMaterials() : void {
-    this.isLoading = true; 
-    this.dexieDB.getAllMaterials().subscribe(
-      (data) => {
-        this.tutti_materiali = data;
-        this.isLoading = false; 
-        console.log('Dati aggiunti: ', this.tutti_materiali);
-      },
-      (error) => {
-        console.log('Errore di inserimento materiale nella tabella');
-        this.isLoading = false; 
-      }
-    );
-  }
 
-    
+paginaSuccessiva() {
+this.router.navigate(['/materiali'])
+}
+
 
 }
+
+

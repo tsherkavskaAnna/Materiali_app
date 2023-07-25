@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Tab_Materiali_Model } from '../tab_materiali_model';
-import { materialiDBService } from '../materialiDB.service';
-import { Router } from '@angular/router';
+import { materialiDBService } from '../services/materialiDB.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationService } from '../services/notification.service';
+
 
 @Component({
   selector: 'app-data',
@@ -11,15 +13,16 @@ import { Router } from '@angular/router';
 })
 export class InputDataComponent implements OnInit {
 
-
   form!: FormGroup;
   submitted = false;
+  id: number | undefined;
 
-  constructor(private fb: FormBuilder, public dexieDB: materialiDBService, private router: Router) {}
+  constructor(private fb: FormBuilder, private dexieDB: materialiDBService,private router: Router, 
+    private route: ActivatedRoute, private notify: NotificationService) {}
+
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      Id:['', Validators.required],
       dataRegistrazione: ['', Validators.required],
       cantiere: ['', Validators.required],
       articolo: ['', Validators.required],
@@ -29,12 +32,12 @@ export class InputDataComponent implements OnInit {
       numero_bolla: ['', Validators.required],
       note: [''],
     });
+
   }
-  addMaterials() {
+ async addMaterials() {
     if(this.form.valid && this.form.dirty) {
       this.submitted =true;
       const materiali = new Tab_Materiali_Model(
-      this.form.get('id')!.value,
       this.form.get('dataRegistrazione')!.value,
       this.form.get('cantiere')!.value,
       this.form.get('articolo')!.value,
@@ -45,17 +48,20 @@ export class InputDataComponent implements OnInit {
       this.form.get('note')!.value,
       );
     
-      this.dexieDB.addMaterials(materiali)
-      .then(() => {
-        this.router.navigate(['/righe'])
-        console.log('Materiale salvato in database.'); 
-      }).catch(error => console.log('Qualcosa andato male!')
-      )
+      try {
+        const materialID = await this.dexieDB.addMaterials(materiali);
+        this.notify.showSuccess('Materiale salvato in database con ID: '+ materialID);
+        this.router.navigate(['/righe', materialID])
+      } catch (error) {
+        console.log('Errore durante inserimento di nuvo elemento');
+        this.notify.showError('Qualcosa è andato storto!')
+      }
     }
     else {
-      console.log('Inserire tutti dati nella form!');
+      this.notify.showError('Inserire tutti dati nella form!');
       this.submitted = false;
-      
     }
   }
+
+  
 }
