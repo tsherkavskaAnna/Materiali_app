@@ -1,19 +1,51 @@
 
 <section class="righe-section">
-  <h3>Riepilogo su materiale inserito: </h3>
+  <h3>Riepilogo: </h3>
   <div *ngIf="selectedMateriale">
-    <p>ID: {{ materialId }}</p>
-    <p>Data: {{ selectedMateriale.Data_Registrazione | date}}</p>
-    <p>Cantiere: {{ selectedMateriale.Cantiere}}</p>
-    <p>Articolo: {{ selectedMateriale.Articolo}}</p>
-    <p>UM: {{ selectedMateriale.Unita_Misura}}</p>
-    <p>Quantita: {{ selectedMateriale.Quantita}}</p>
-    <p>Fornitore: {{ selectedMateriale.Fornitore}}</p>
-    <p>Numero bolla: {{ selectedMateriale.Numero_Bolla}}</p>
-    <p>Note: {{ selectedMateriale.Note}}</p>
+      <table class="table table-success table-bordered border-secondary-subtle">
+        <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Data</th>
+              <th scope="col">Cantiere</th>
+              <th scope="col">Fornitore</th>
+              <th scope="col">№ Bolla</th>
+              <th scope="col">Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ materialId }}</td>
+              <td>{{ selectedMateriale._Data_Registrazione | date: 'dd/MM/yyyy'}}</td>
+              <td>{{ selectedMateriale._Cantiere}}</td>
+              <td>{{ selectedMateriale._Fornitore}}</td>
+              <td>{{ selectedMateriale._Numero_Bolla}}</td>
+              <td>{{ selectedMateriale._Note}}</td>
+            </tr>
+          </tbody>
+      </table>
+    </div>
+
+<h3>Aggiungere articoli: </h3>
+<div class="row" style="margin-bottom: 30px; margin-top: 20px;">
+      <div class="col">
+        <label for="validationServer03" class="form-label">Articolo</label>
+      <input type="text" class="form-control" placeholder="articolo"
+      id="articolo" [(ngModel)]="addedMaterial">
+      </div>
+  
+      <div class="col">
+        <label for="validationServer03" class="form-label">Unità Misura</label>
+      <input type="text" class="form-control" placeholder="um">
+    </div>
+    <div class="col">
+      <label for="validationServer03" class="form-label">Quantita</label>
+    <input type="number" class="form-control" placeholder="quantita">
   </div>
+</div>
+
     <div class="d-flex justify-content-between mt-4">
-      <button type="submit" class="btn btn-primary" (click)="salvaCambiamenti()">Salva</button>
+      <button type="submit" class="btn btn-primary" (click)="saveChange()">Salva</button>
       <button type="button" class="btn btn-primary" (click)="paginaSuccessiva()">Avanti</button>
     </div>
   

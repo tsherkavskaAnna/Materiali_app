@@ -1,4 +1,4 @@
-<!--
+
 <section class="materiali_section">
     <h2>Materiali aggiunti: </h2>
      <div class="table-responsive-lg">
@@ -7,6 +7,7 @@
       <table class="table table-striped table-bordered border-secondary-subtle">
         <thead>
             <tr>
+              <th scope="col">ID</th>
               <th scope="col">Data</th>
               <th scope="col">Cantiere</th>
               <th scope="col">Articolo</th>
@@ -19,7 +20,8 @@
           </thead>
           <tbody class="table-group-divider"  *ngIf="tutti_materiali && tutti_materiali.length > 0"  >
             <tr *ngFor="let materiale of tutti_materiali">
-              <td><a>{{materiale._Data_Registrazione | date: 'dd/MM/yyyy'}}</a></td>
+              <td><a routerLink="['/dettaglio', materialId]">{{ materiale }}</a></td>
+              <td>{{materiale._Data_Registrazione | date: 'dd/MM/yyyy'}}</td>
               <td>{{materiale._Cantiere}}</td>
               <td>{{materiale._Articolo}}</td>
               <td>{{materiale._Unita_Misura}}</td>
@@ -32,4 +34,3 @@
       </table>
     </div>
 </section>
--->

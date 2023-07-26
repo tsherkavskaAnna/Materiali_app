@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InputDataComponent } from './inputData/data.component';
@@ -33,6 +33,7 @@ import { CommonModule } from '@angular/common';
     AppRoutingModule,
     CoreModule,
     ReactiveFormsModule,
+    FormsModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-right',

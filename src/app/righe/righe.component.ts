@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { materialiDBService } from '../services/materialiDB.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Tab_Materiali_Model } from '../tab_materiali_model';
+import { Tab_Materiali_Model1, Tab_Materiali_Model2 } from '../models/tab_materiali_model';
 
 @Component({
   selector: 'app-righe',
@@ -10,37 +10,38 @@ import { Tab_Materiali_Model } from '../tab_materiali_model';
 })
 export class RigheComponent implements OnInit {
 
- selectedMateriale: Tab_Materiali_Model | undefined;
+ selectedMateriale: Tab_Materiali_Model1 | undefined;
+ addedMaterial: Tab_Materiali_Model2[] = [];
  materialId: number | null = null;
 
-  constructor (private dexieDB: materialiDBService, private route: ActivatedRoute, private router: Router) {}
+  constructor (private dexieDB: materialiDBService, public route: ActivatedRoute, private router: Router) {}
 
-ngOnInit(): void {
- this.route.paramMap.subscribe(params => {
+async ngOnInit(): Promise<void> {
+ this.route.paramMap.subscribe(async params => {
   const materialId = params.get('id');
   if(materialId) {
     this.materialId = Number(materialId);
-    this.dexieDB.getMaterialByID(this.materialId).then((material) => {
+    
+   await this.dexieDB.getMaterialByID(this.materialId).then((material) => {
       this.selectedMateriale = material; 
       console.log('Materiale con id ' + materialId);
       console.log(this.selectedMateriale);
      }).catch((error) => {
-      console.log('Errore durante rucupero dati!');
+      console.log('Errore durante recupero dati!');
      });
   }
  })
  
 }
 
-salvaCambiamenti() { 
+async saveChange() { 
   if(this.selectedMateriale) {
-    const nuovaData = new Date();
-    this.selectedMateriale.Data_Registrazione = nuovaData;
-    console.log('Nuova data è: '+ this.selectedMateriale.Data_Registrazione );
     
+    console.log(this.addedMaterial);
+    this.selectedMateriale.materialiModel2.push(...this.addedMaterial);
+    await this.dexieDB.updateMaterial(this.selectedMateriale)
   }
 }
-  
 
 paginaSuccessiva() {
 this.router.navigate(['/materiali'])

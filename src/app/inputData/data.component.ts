@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Tab_Materiali_Model } from '../tab_materiali_model';
 import { materialiDBService } from '../services/materialiDB.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
+import { Tab_Materiali_Model1 } from '../models/tab_materiali_model';
 
 
 @Component({
@@ -13,7 +13,7 @@ import { NotificationService } from '../services/notification.service';
 })
 export class InputDataComponent implements OnInit {
 
-  form!: FormGroup;
+  formPage1!: FormGroup;
   submitted = false;
   id: number | undefined;
 
@@ -22,12 +22,9 @@ export class InputDataComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.form = this.fb.group({
+    this.formPage1 = this.fb.group({
       dataRegistrazione: ['', Validators.required],
       cantiere: ['', Validators.required],
-      articolo: ['', Validators.required],
-      um: ['', Validators.required],
-      quantita: ['', Validators.required],
       fornitore: ['', Validators.required],
       numero_bolla: ['', Validators.required],
       note: [''],
@@ -35,19 +32,17 @@ export class InputDataComponent implements OnInit {
 
   }
  async addMaterials() {
-    if(this.form.valid && this.form.dirty) {
+    if(this.formPage1.valid && this.formPage1.dirty) {
       this.submitted =true;
-      const materiali = new Tab_Materiali_Model(
-      this.form.get('dataRegistrazione')!.value,
-      this.form.get('cantiere')!.value,
-      this.form.get('articolo')!.value,
-      this.form.get('um')!.value,
-      this.form.get('quantita')!.value,
-      this.form.get('fornitore')!.value,
-      this.form.get('numero_bolla')!.value, 
-      this.form.get('note')!.value,
-      );
-    
+      
+const dataPage1 = this.formPage1.value;
+const materiali = new Tab_Materiali_Model1(
+  dataPage1.dataRegistrazione,
+  dataPage1.cantiere,
+  dataPage1.fornitore,
+  dataPage1.numero_bolla,
+  dataPage1.note
+);
       try {
         const materialID = await this.dexieDB.addMaterials(materiali);
         this.notify.showSuccess('Materiale salvato in database con ID: '+ materialID);

@@ -12,9 +12,10 @@ const routes: Routes = [
   { path: '', component: InputDataComponent},
   { path: 'data', component: InputDataComponent},
   { path: 'righe/:id', component: RigheComponent},
+  { path: 'righe', component: RigheComponent},
   { path: 'materiali', component: MaterialiComponent},
   { path: 'dettaglio/:id', component: DettaglioComponent},
-  { path: '**', component: ErrorComponent},
+  { path: '**', pathMatch: 'full', component: ErrorComponent},
 
 ];
 

@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import Dexie, { Table } from 'dexie';
-import { Tab_Materiali_Model } from '../tab_materiali_model';
+import { Tab_Materiali_Model1, Tab_Materiali_Model2 } from '../models/tab_materiali_model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class materialiDBService extends Dexie{
   
-  materiali: Dexie.Table<Tab_Materiali_Model, number>;
+  materiali: Dexie.Table<Tab_Materiali_Model1, number>;
 
   constructor() { 
     super('dexieDB');
 
     this.version(1).stores({
-      materiali: '++id, dataRegistrazione, cantiere, articolo,um,quantita,fornitore,numero_bolla,note'
+      materiali: '++id, _Data_Registrazione, _Cantiere, _Fornitore, _Numero_Bolla,_Note, materialiModel2',
     });
 
 //Per vedere se è aperto database
@@ -24,32 +24,30 @@ export class materialiDBService extends Dexie{
     this.materiali = this.table('materiali');
   }
     //Tutti materiali
-    async getAllMaterials() :Promise<Tab_Materiali_Model[]> {
+    async getAllMaterials() :Promise<Tab_Materiali_Model1[]> {
      return await this.materiali.toArray().then((data) => {
-      console.log('GetAll in Service: ',data);
       return data;
      })
     }
         
    //Aggiungere nuovo materiale
-   async addMaterials(material: Tab_Materiali_Model) : Promise<number> {
+   async addMaterials(material: Tab_Materiali_Model1) : Promise<number> {
     console.log('Aggiunto nuovo materiale: ', material);
     return await this.materiali.add(material);
    }
 
-   //Modificare materiale
-   async updateMaterial(updateMaterial: Tab_Materiali_Model) : Promise<void> {
-    const id = updateMaterial.Data_Registrazione;
-     await this.materiali.update(updateMaterial, updateMaterial)
+   //Modificare materiale nella pagina 2
+   async updateMaterial(material: Tab_Materiali_Model1) : Promise<void> {
+     await this.materiali.update(material.id, material)
    }
 
-   //Eliminare materiale
+   //Eliminare materiale dalla pagina 4
    async deleteMaterial(id: number) {
-    return await this.materiali.delete(id);
+     await this.materiali.delete(id);
    }
 
    //Selezionare materiale con ID
-  async getMaterialByID(id: number ) : Promise<Tab_Materiali_Model | undefined> {
+  async getMaterialByID(id: number ) : Promise<Tab_Materiali_Model1 | undefined> {
     return await this.materiali.get(id);
    }
 
