@@ -70,6 +70,7 @@ async saveChange() {
   if(this.selectedMateriale) {
     this.selectedMateriale.materialiModel2.push(...this.addedMaterial);
     await this.dexieDB.updateMaterial(this.selectedMateriale);
+    this.notify.showSuccess('Nuovo articolo è stato salvato con successo')
     console.log('Rinovato array: ',this.selectedMateriale);
   }
 }

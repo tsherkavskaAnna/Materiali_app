@@ -1,1 +1,18 @@
-<p>dettaglio works!</p>
+<section style="padding: 10px 100px;">
+    <div class="card border-success w-75 shadow-lg p-3 mb-5 bg-body-tertiary rounded" style="max-width: 30rem;">
+        <h5 class="card-header bg-transparent border-success">Informazione su registrazione</h5>
+        <div class="card-body text-dark" *ngIf="materialDetails">
+          <p><strong>ID: </strong>{{materialId}}</p>
+          <p><strong>Data Registrazione: </strong>{{materialDetails._Data_Registrazione | date: 'dd-MM-yyyy'}}</p>
+          <p><strong>Cantiere: </strong>{{materialDetails._Cantiere}}</p>
+          <p><strong>Fornitore: </strong>{{materialDetails._Fornitore}}</p>
+          <p><strong>№ Bolla: </strong>{{materialDetails._Numero_Bolla}}</p>
+          <p><strong>Note: </strong>{{materialDetails._Note}}</p>
+        <div *ngFor="let item of materialDetails.materialiModel2" class="card-footer bg-transparent border-success">
+        <p><strong>Articolo: </strong>{{ item._Articolo}}</p>
+        <p><strong>Quantità: </strong>{{ item._Quantita}}</p>
+        <p><strong>UM: </strong>{{ item._Unita_Misura}}</p>
+        </div>
+    </div>
+      </div>
+</section>
