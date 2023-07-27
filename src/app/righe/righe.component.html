@@ -2,7 +2,7 @@
 <section class="righe-section">
   <h3>Riepilogo: </h3>
   <div *ngIf="selectedMateriale">
-      <table class="table table-success table-bordered border-secondary-subtle">
+<table class="table table-success table-bordered border-secondary-subtle">
         <thead>
             <tr>
               <th scope="col">ID</th>
@@ -14,7 +14,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr>      
               <td>{{ materialId }}</td>
               <td>{{ selectedMateriale._Data_Registrazione | date: 'dd/MM/yyyy'}}</td>
               <td>{{ selectedMateriale._Cantiere}}</td>
@@ -27,28 +27,41 @@
     </div>
 
 <h3>Aggiungere articoli: </h3>
+<form class="container-form" #articleForm="ngForm" [formGroup]="formPage2" >
 <div class="row" style="margin-bottom: 30px; margin-top: 20px;">
       <div class="col">
         <label for="validationServer03" class="form-label">Articolo</label>
       <input type="text" class="form-control" placeholder="articolo"
-      id="articolo" [(ngModel)]="addedMaterial">
+      id="articolo" formControlName="articolo">
       </div>
   
       <div class="col">
         <label for="validationServer03" class="form-label">Unità Misura</label>
-      <input type="text" class="form-control" placeholder="um">
+      <input type="text" class="form-control" placeholder="um" id="um" formControlName="unita_misura">
     </div>
     <div class="col">
       <label for="validationServer03" class="form-label">Quantita</label>
-    <input type="number" class="form-control" placeholder="quantita">
+    <input type="number" class="form-control" placeholder="quantita" id="quantita" formControlName="quantita"> 
   </div>
 </div>
 
+<div class="card w-75 mb-3">
+  <div class="card-body" *ngFor="let item of addedMaterial">
+    <h5 class="card-title">Articolo: {{ item._Articolo }} </h5>
+    <p class="card-text">Unita misura: {{ item._Unita_Misura }}</p>
+    <p class="card-text">Quantita: {{ item._Quantita }}</p>
+  </div>
+</div>
+
+
+
     <div class="d-flex justify-content-between mt-4">
-      <button type="submit" class="btn btn-primary" (click)="saveChange()">Salva</button>
-      <button type="button" class="btn btn-primary" (click)="paginaSuccessiva()">Avanti</button>
+      <button type="submit" class="btn btn-primary" (click)="saveArticle()" [disabled]="!formPage2.valid">Aggiungi articolo</button>
+      <button type="button" class="btn btn-success" (click)="saveChange()">Salva nuovi articoli</button>
+      <button type="button" class="btn btn-primary" (click)="paginaSuccessiva()">Avanti <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/></svg></button>
     </div>
-  
+  </form>
   
   </section>
   

@@ -48,7 +48,7 @@ const materiali = new Tab_Materiali_Model1(
         this.notify.showSuccess('Materiale salvato in database con ID: '+ materialID);
         this.router.navigate(['/righe', materialID])
       } catch (error) {
-        console.log('Errore durante inserimento di nuvo elemento');
+        console.log('Errore durante inserimento di nuovo elemento');
         this.notify.showError('Qualcosa è andato storto!')
       }
     }

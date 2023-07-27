@@ -1,36 +1,25 @@
 
 <section class="materiali_section">
     <h2>Materiali aggiunti: </h2>
-     <div class="table-responsive-lg">
-      <div *ngIf="tutti_materiali.length === 0">Caricamento dati...</div>
-      <div *ngIf="tutti_materiali.length > 0"></div>
-      <table class="table table-striped table-bordered border-secondary-subtle">
-        <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Data</th>
-              <th scope="col">Cantiere</th>
-              <th scope="col">Articolo</th>
-              <th scope="col">UM</th>
-              <th scope="col">Quantita</th>
-              <th scope="col">Fornitore</th>
-              <th scope="col">№ Bolla</th>
-              <th scope="col">Note</th>
-            </tr>
-          </thead>
-          <tbody class="table-group-divider"  *ngIf="tutti_materiali && tutti_materiali.length > 0"  >
-            <tr *ngFor="let materiale of tutti_materiali">
-              <td><a routerLink="['/dettaglio', materialId]">{{ materiale }}</a></td>
-              <td>{{materiale._Data_Registrazione | date: 'dd/MM/yyyy'}}</td>
-              <td>{{materiale._Cantiere}}</td>
-              <td>{{materiale._Articolo}}</td>
-              <td>{{materiale._Unita_Misura}}</td>
-              <td>{{materiale._Quantita}}</td>
-              <td>{{materiale._Fornitore}}</td>
-              <td>{{materiale._Numero_Bolla}}</td>
-              <td>{{materiale._Note}}</td>
-            </tr>
-          </tbody>
-      </table>
-    </div>
+          <div class="card">
+            <div class="card-body" *ngFor="let materiale of tutti_materiali let i = index">
+              <p class="card-header bg-secondary-subtle">№: {{i + 1}}</p>
+              <p class="card-text">ID: {{ materiale.id }}</p>
+              <p class="card-text">Data: {{materiale._Data_Registrazione | date: 'dd/MM/yyyy'}}</p>
+              <p class="card-text">Cantiere: {{materiale._Cantiere}}</p>
+              <p class="card-text">Fornitore: {{materiale._Fornitore}}</p>
+              <p class="card-text">№ Bolla: {{materiale._Numero_Bolla}}</p>
+              <div *ngFor="let item of tutti_materiali">
+                <span class="card-text"><b>Articoli:</b> {{ item._Articolo}}</span> 
+                <span class="card-text"><b>UM:</b> {{ item._Unita_Misura}}</span>
+                <span class="card-text"><b>Quantità:</b> {{ item._Quantita}}</span>
+            </div>
+              <p class="card-text">Note: {{materiale._Note}}</p>
+              <div class="d-flex justify-content-between mt-4">
+              <button class="btn btn-info" (click)="redirectToInfo(materiale.id)">Informazioni</button>
+              <button class="btn btn-danger" (click)="deleteMaterial(materiale.id)">Cancella</button>
+              </div>
+              <hr>
+            </div>
+          </div>
 </section>
