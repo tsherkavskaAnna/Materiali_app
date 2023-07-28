@@ -16,6 +16,7 @@ export class RigheComponent implements OnInit {
  addedMaterial: Tab_Materiali_Model2[] = [];
  materialId: number | null = null;
  formPage2!: FormGroup;
+ saveBtn: boolean = false;
 
   constructor (private dexieDB: materialiDBService, public route: ActivatedRoute, 
     private router: Router, private notify: NotificationService,
@@ -29,8 +30,6 @@ async ngOnInit(): Promise<void> {
 
    await this.dexieDB.getMaterialByID(this.materialId).then((material) => {
       this.selectedMateriale = material; 
-      console.log('Materiale con id ' + materialId);
-      console.log(this.selectedMateriale);
      }).catch((error) => {
       console.log('Errore durante recupero dati!');
      });
@@ -58,10 +57,12 @@ async saveArticle() {
       console.log('Aggiunto nuovo articolo: ',material2);
       this.notify.showSuccess('Nuovo articolo aggiunto con successo!');
       this.formPage2.reset();
+      this.saveBtn = true;
     } catch (error) {
       console.log('Errore durante inserimento di nuovo elemento');
       this.notify.showError('Qualcosa è andato storto!')
     }
+    
   }
 
 }
@@ -72,6 +73,7 @@ async saveChange() {
     await this.dexieDB.updateMaterial(this.selectedMateriale);
     this.notify.showSuccess('Nuovo articolo è stato salvato con successo')
     console.log('Rinovato array: ',this.selectedMateriale);
+    this.saveBtn = false;
   }
 }
 

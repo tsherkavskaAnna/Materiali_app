@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { materialiDBService } from '../services/materialiDB.service';
 import { Tab_Materiali_Model1 } from '../models/tab_materiali_model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class DettaglioComponent implements OnInit {
   public materialDetails: Tab_Materiali_Model1 | undefined;
 
   constructor(private dexieDB: materialiDBService, public route: ActivatedRoute,
-    private notify: NotificationService) {}
+    private notify: NotificationService, private router: Router) {}
 
   async ngOnInit() {
     this.materialId = this.route.snapshot.params['id'];
@@ -28,9 +28,14 @@ export class DettaglioComponent implements OnInit {
   async loadDetails(materialId: number) {
     this.dexieDB.getMaterialByID(materialId).then((data) => {
       this.materialDetails = data;
-      console.log(this.materialDetails);
-      
-    })
+    });
+  }
+  addNewArticle() {
+    this.materialId = this.route.snapshot.params['id'];
+    this.router.navigate(['/righe', this.materialId])
+  }
+  paginaPrecedente() {
+    this.router.navigate(['/materiali'])
   }
 
 }

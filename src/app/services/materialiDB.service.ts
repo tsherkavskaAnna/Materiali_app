@@ -13,7 +13,7 @@ export class materialiDBService extends Dexie{
     super('dexieDB');
 
     this.version(1).stores({
-      materiali: '++id, _Data_Registrazione, _Cantiere, _Fornitore, _Numero_Bolla,_Note, materialiModel2',
+      materiali: '++id, _Data_Registrazione, _Cantiere, _Fornitore, _Numero_Bolla, _Note, materialiModel2',
     });
 
 //Per vedere se è aperto database
@@ -51,6 +51,22 @@ export class materialiDBService extends Dexie{
     return await this.materiali.get(id);
    }
 
+//Cercare marteriale con id
+async searchQuery(idSearch: number | string, query: string): Promise<Tab_Materiali_Model1[]> {
+  let result: Tab_Materiali_Model1[] = [];
+
+  try {
+    if (typeof idSearch === 'number') {
+      const element = await this.materiali.get(idSearch);
+      if (element) {
+        result.push(element);
+      }
+    } 
+  } catch (error) {
+    console.log('errore durante ricerca in service!');
+  }
+  return result;
+} 
 
 }
 

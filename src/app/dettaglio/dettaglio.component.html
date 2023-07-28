@@ -1,4 +1,13 @@
 <section style="padding: 10px 100px;">
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
+    <button type="button" class="btn btn-success" (click)="addNewArticle()" >Aggiungere articoli <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+    </svg></button>
+    <button type="button" class="btn btn-secondary" (click)="paginaPrecedente()">Ritornare al elenco <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z"/>
+    </svg></button>
+  </div>
     <div class="card border-success w-75 shadow-lg p-3 mb-5 bg-body-tertiary rounded" style="max-width: 30rem;">
         <h5 class="card-header bg-transparent border-success">Informazione su registrazione</h5>
         <div class="card-body text-dark" *ngIf="materialDetails">

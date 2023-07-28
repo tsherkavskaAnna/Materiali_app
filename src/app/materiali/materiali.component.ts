@@ -3,6 +3,7 @@ import { Tab_Materiali_Model1, Tab_Materiali_Model2 } from '../models/tab_materi
 import { materialiDBService } from '../services/materialiDB.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
+import { HeaderService } from '../services/header.service';
 
 @Component({
   selector: 'app-materiali',
@@ -12,19 +13,24 @@ import { NotificationService } from '../services/notification.service';
 export class MaterialiComponent implements OnInit {
 
   public tutti_materiali: Tab_Materiali_Model1[] = [];
+  public risultati_ricerca: Tab_Materiali_Model1[] = [];
   id!: number;
-  query!: '';
+  query: string = '';
   
-    constructor(private dexieDB: materialiDBService, public route: ActivatedRoute, private router: Router, private notify: NotificationService) {}
+    constructor(private dexieDB: materialiDBService, public route: ActivatedRoute, private router: Router, private notify: NotificationService, private headerService: HeaderService) {}
   
    async ngOnInit() {
     try {
       this.tutti_materiali= await this.dexieDB.getAllMaterials();
-      this.tutti_materiali.forEach((materiale) => materiale)
     
     } catch (error) {
       console.error('Qualcosa è andato storto con elenco di materiali!');
     } 
+
+    this.headerService.searchQueryEvent.subscribe((query: string) => {
+      this.query = query;
+      this.searchQuery();
+    })
 }
 
 redirectToInfo(id: number) {
@@ -40,7 +46,20 @@ async deleteMaterial(id: number) {
     this.notify.showError('Non è stato eliminato elemento!')
   }
 }
- searchQuery() {
+async searchQuery() {
+  try {
+    const searchId = Number(this.query);
+    this.risultati_ricerca = await this.dexieDB.searchQuery(isNaN(searchId) ? this.query : searchId, this.query);
+    if(searchId) {
+      this.router.navigate(['/dettaglio', searchId]);
+    }
 
+    
+  } catch (error) {
+    console.log('errore');
+    
+  }
  }
+ 
+ 
 }
